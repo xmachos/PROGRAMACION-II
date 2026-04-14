@@ -3,7 +3,6 @@ class AlgebraVectorial:
     def __init__(self, a, b):
         self.a = a
         self.b = b
-
     def norma(self, v):
         suma = 0
         i = 0
