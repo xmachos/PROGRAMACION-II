@@ -16,10 +16,7 @@ class Juego:
 
     def quitaVida(self):
         self.vidasActuales = self.vidasActuales - 1
-        if self.vidasActuales > 0:
-            return True
-        else:
-            return False
+        return self.vidasActuales > 0
 
 
 class JuegoAdivinaNumero(Juego):
@@ -28,12 +25,8 @@ class JuegoAdivinaNumero(Juego):
         self.numeroAAdivinar = 0
 
     def validaNumero(self, numero):
-        if numero >= 0 and numero <= 10:
-            return True
-        else:
-            return False
+        return 0 <= numero <= 10
 
-    # b) uso de validaNumero en juega
     def juega(self):
         self.reiniciaPartida()
         self.numeroAAdivinar = random.randint(0, 10)
@@ -49,7 +42,7 @@ class JuegoAdivinaNumero(Juego):
 
             numeroIngresado = int(entrada)
 
-            if self.validaNumero(numeroIngresado) == False:
+            if not self.validaNumero(numeroIngresado):
                 print("Número fuera de rango")
                 continue
 
@@ -57,48 +50,37 @@ class JuegoAdivinaNumero(Juego):
                 print("Acertaste!!")
                 self.actualizaRecord()
                 break
-            else:
-                if self.quitaVida():
-                    if numeroIngresado < self.numeroAAdivinar:
-                        print("El número a adivinar es mayor")
-                    else:
-                        print("El número a adivinar es menor")
+
+            if self.quitaVida():
+                if numeroIngresado < self.numeroAAdivinar:
+                    print("El número a adivinar es MAYOR")
                 else:
-                    print("Te quedaste sin vidas")
-                    print("El número era:", self.numeroAAdivinar)
-                    break
+                    print("El número a adivinar es MENOR")
+            else:
+                print("Te quedaste sin vidas")
+                print("El número era:", self.numeroAAdivinar)
+                break
 class JuegoAdivinaPar(JuegoAdivinaNumero):
     def validaNumero(self, numero):
-        if numero >= 0 and numero <= 10:
-            if numero % 2 == 0:
-                return True
-            else:
-                print("Error: el número es impar, debe ser par")
-                return False
-        else:
-            return False
+        if 0 <= numero <= 10 and numero % 2 == 0:
+            return True
+        print("Error: el número debe ser PAR")
+        return False
 class JuegoAdivinaImpar(JuegoAdivinaNumero):
     def validaNumero(self, numero):
-        if numero >= 0 and numero <= 10:
-            if numero % 2 != 0:
-                return True
-            else:
-                print("Error: el número es par, debe ser impar")
-                return False
-        else:
-            return False
+        if 0 <= numero <= 10 and numero % 2 != 0:
+            return True
+        print("Error: el número debe ser IMPAR")
+        return False
 class Aplicacion:
     def main(self):
-        juego1 = JuegoAdivinaNumero(3)
-        juego2 = JuegoAdivinaPar(3)
-        juego3 = JuegoAdivinaImpar(3)
-
         print("----- JUEGO NORMAL -----")
-        juego1.juega()
+        JuegoAdivinaNumero(3).juega()
+
         print("\n----- JUEGO PARES -----")
-        juego2.juega()
+        JuegoAdivinaPar(3).juega()
+
         print("\n----- JUEGO IMPARES -----")
-        juego3.juega()
+        JuegoAdivinaImpar(3).juega()
 if __name__ == "__main__":
-    app = Aplicacion()
-    app.main()
+    Aplicacion().main()
